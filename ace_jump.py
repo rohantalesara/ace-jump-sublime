@@ -84,6 +84,7 @@ class AceJumpCommand(sublime_plugin.WindowCommand):
         ace_jump_active = True
 
         self.char = ""
+        self.prev= ""    #OWN EDIT
         self.target = ""
         self.views = []
         self.changed_views = []
@@ -425,6 +426,22 @@ class AddAceJumpLabelsCommand(sublime_plugin.TextCommand):
             'visible_region': lambda view : view.visible_region(),
             'current_line': lambda view : view.line(view.sel()[0]),
         }.get(region_type)(self.view)
+
+class AceJumpPrevCommand(AceJumpCommand):  #OWN EDIT
+    """Specialized command for cycling back to previous highlight"""
+
+    def init_value(self):
+        return ""
+
+    def regex(self):
+        return r'\b{}'
+
+    def after_jump(self, view):
+        global mode
+
+        if mode == 3:
+            view.run_command("move", {"by": "word_ends", "forward": True})
+            mode = 0
 
 class RemoveAceJumpLabelsCommand(sublime_plugin.TextCommand):
     """Command for removing labels from the views"""

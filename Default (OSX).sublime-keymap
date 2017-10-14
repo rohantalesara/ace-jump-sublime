@@ -26,5 +26,9 @@
     {
         "keys": ["ctrl+."],
         "command": "ace_jump_after"
+    },
+    {
+        "keys": ["shift+enter"],
+        "command": "ace_jump_previous"
     }
 ]
